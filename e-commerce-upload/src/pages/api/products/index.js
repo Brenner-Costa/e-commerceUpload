@@ -4,11 +4,13 @@ import db from '../../../utils/db';
 
 const handler = nc();
 
-handler.get(async(req, res) => {
-    db.connect();
-    const products = await Product.find({});
-    db.disconnect();
-    res.send(products);
+handler.get(async (req, res) => {
+  //colocar o await antes de db
+  db.connect();
+  const products = await Product.find({});
+  //colocar o await antes de db
+  db.disconnect();
+  res.send(products);
 });
 
 export default handler;

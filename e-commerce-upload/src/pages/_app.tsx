@@ -16,14 +16,16 @@ import { StoreProvider } from '../utils/Store';
 export default function App({ Component, pageProps }: AppProps) {
   return (
     //@ts-ignore
+    //baixar a biblioteca do snackbar o retirar esse provider por enquanto
     <SnackbarProvider anchorOrigin={{ vertical: 'top', horizontal: 'center' }}>
       <StoreProvider>
+        {/* descomentar o SessionProvider */}
         {/* <SessionProvider> */}
-          {/* <ChakraProvider resetCSS theme={theme}> */}
-            {/* <Navbar /> */}
-            <Component {...pageProps} />
-            {/* <Footer /> */}
-          {/* </ChakraProvider> */}
+        {/* <ChakraProvider resetCSS theme={theme}> */}
+        {/* <Navbar /> */}
+        <Component {...pageProps} />
+        {/* <Footer /> */}
+        {/* </ChakraProvider> */}
         {/* </SessionProvider> */}
       </StoreProvider>
     </SnackbarProvider>
