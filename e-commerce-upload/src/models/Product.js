@@ -6,13 +6,13 @@ const productSchema = new mongoose.Schema({
   category: { type: String, required: true },
   image: { type: String, required: true },
   //colocar o default: false
-  isFeatured: { type: Boolean, required: true },
+  isFeatured: { type: Boolean, required: true, default: false},
   //tirar o required: true para a featuredImage
-  featuredImage: { type: String, required: true },
+  featuredImage: { type: String},
   price: { type: Number, required: true },
   brand: { type: String, required: true },
   //colocar o default: 0
-  countInStock: { type: Number, required: true },
+  countInStock: { type: Number, required: true, default: 0 },
   description: { type: String, required: true },
 });
 

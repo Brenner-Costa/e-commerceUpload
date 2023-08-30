@@ -5,10 +5,10 @@ import db from '../../../utils/db';
 const handler = nc();
 
 handler.get(async (req, res) => {
-  db.connect();
+  await db.connect();
   const categories = await Product.find({}).distinct('category');
   //colocar o await antes do db
-  db.disconnect();
+  await db.disconnect();
   res.send(categories);
 });
 

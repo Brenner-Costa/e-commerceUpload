@@ -8,10 +8,10 @@ const handler = nc();
 
 handler.post(async (req, res) => {
   //colocar o await antes de db
-  db.connect();
+  await db.connect();
   const user = await User.findOne({ email: req.body.email });
   //colocar o await antes de db
-  db.disconnect();
+  await db.disconnect();
   if (user && bcrypt.compareSync(req.body.password, user.password)) {
     const token = signToken(user);
     res.send({

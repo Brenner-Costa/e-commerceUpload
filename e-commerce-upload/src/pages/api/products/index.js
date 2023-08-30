@@ -6,10 +6,10 @@ const handler = nc();
 
 handler.get(async (req, res) => {
   //colocar o await antes de db
-  db.connect();
+  await db.connect();
   const products = await Product.find({});
   //colocar o await antes de db
-  db.disconnect();
+  await db.disconnect();
   res.send(products);
 });
 
