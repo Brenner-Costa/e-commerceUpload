@@ -8,12 +8,12 @@ const handler = nc();
 
 handler.get(async(req, res) => {
     await db.connect();
-    await User.deleteMany();
+    // await User.deleteMany();
+    // await Product.deleteMany();
     await User.insertMany(data.users);
-    await Product.deleteMany();
     await Product.insertMany(data.products);
     await db.disconnect();
-    res.sendDate({message: 'Seeded com sucesso!'});
+    res.send({message: 'Seeded com sucesso!'});
 });
 
 export default handler;

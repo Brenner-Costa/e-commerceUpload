@@ -3,54 +3,42 @@ import mongoose from 'mongoose';
 const connection = {};
 
 async function connect() {
-  if (mongoose.isConnected) {
-    console.log('Aplicação já conectada ao banco de dados');
+  if (connection.isConnected) {
+    console.log('already connected');
     return;
   }
-  //retirar o [0]
-  if (mongoose.connections[0].lenght > 0) {
+  if (mongoose.connections.length > 0) {
     connection.isConnected = mongoose.connections[0].readyState;
     if (connection.isConnected === 1) {
-      console.log('Usar conexão anterior');
+      console.log('use previous connection');
       return;
     }
     await mongoose.disconnect();
   }
-  const db = mongoose.connect(process.env.MONGODB_URI);
-  console.log('Nova conexão');
+  const db = await mongoose.connect(process.env.MONGODB_URI, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  });
+  console.log('new connection');
   connection.isConnected = db.connections[0].readyState;
 }
 
 async function disconnect() {
   if (connection.isConnected) {
-    if (process.env.NODE_ENV === 'Produção') {
+    if (process.env.NODE_ENV === 'production') {
       await mongoose.disconnect();
       connection.isConnected = false;
     } else {
-      console.log('Não desconectado');
+      console.log('not disconnected');
     }
   }
 }
 
 function convertDocToObj(doc) {
-  try {
-    doc._id = doc._id.toString();
-
-    if (doc.createdAt !== undefined) {
-      doc.createdAt = doc.createdAt.toString();
-    } else {
-      console.log('ERROR: convertDocToObj - createdAt');
-    }
-
-    if (doc.updatedAt !== undefined) {
-      doc.updatedAt = doc.updatedAt.toString();
-    } else {
-      console.log('ERROR: convertDocToObj - updatedAt');
-    }
-    return doc;
-  } catch {
-    console.log('ERRO: DOCUMENTO NÃO RECONHECIDO/CONVERTIDO');
-  }
+  doc._id = doc._id.toString();
+  doc.createdAt = doc.createdAt.toString();
+  doc.updatedAt = doc.updatedAt.toString();
+  return doc;
 }
 
 const db = { connect, disconnect, convertDocToObj };
