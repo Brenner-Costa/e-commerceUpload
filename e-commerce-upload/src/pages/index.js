@@ -1,4 +1,5 @@
 import NextLink from 'next/link';
+import Product from '../models/Product';
 import { useRouter } from 'next/router';
 import { useContext } from 'react';
 import { Store } from '../utils/Store';
@@ -8,7 +9,7 @@ import db from '../utils/db';
 export default function Home(props) {
     const router = useRouter();
     const { state, dispatch } = useContext(Store);
-    const { topRateProducts, featuredProducts } = props;
+    const { featuredProducts } = props;
     const addToCartHandler = async(product) => {
         const existItem = state.cart.cartItens.find((x) => x._id === product._id);
         const quantily = existItem ? existItem.quantily + 1 : 1;
@@ -21,3 +22,17 @@ export default function Home(props) {
         router.push('/cart');
     };
 };
+
+
+export async function getServerSideProps() {
+    await db.connect();
+    const featuredProducts = await Product.find({isFeatured: true})
+    .lean()
+    .limit(3);
+    await db.disconnect();
+    return {
+        props: {
+            featuredProducts: featuredProductsDocs.map(db.convertDocToObj),
+        },
+    };
+}
