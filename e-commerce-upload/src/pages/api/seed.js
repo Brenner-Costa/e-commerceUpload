@@ -10,8 +10,8 @@ handler.get(async(req, res) => {
     await db.connect();
     // await User.deleteMany();
     // await Product.deleteMany();
-    await User.insertMany(data.users);
-    await Product.insertMany(data.products);
+    // await User.insertMany(data.users);
+    // await Product.insertMany(data.products);
     await db.disconnect();
     res.send({message: 'Seeded com sucesso!'});
 });
